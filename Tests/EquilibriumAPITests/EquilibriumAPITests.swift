@@ -648,3 +648,14 @@ import Foundation
 }
     
     
+@Test fund decodeServerInfo() async throws {
+    let json = """
+    {
+        "version": "0.1.0"
+    }
+    """.utf8
+    
+    let info = try JSONDecoder().decode(ServerInfo.self, from: Data(json))
+    
+    #expect(info.version == "0.1.0")
+}
