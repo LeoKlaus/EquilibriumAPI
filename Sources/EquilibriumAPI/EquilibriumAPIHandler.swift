@@ -47,8 +47,6 @@ public class EquilibriumAPIHandler {
     }
     
     public func get<T: Decodable>(path: String) async throws -> T {
-        let url = self.baseURL.appendingPathComponent(path)
-        
         let data = try await self.get(path: path)
         return try JSONDecoder().decode(T.self, from: data)
     }
@@ -189,7 +187,6 @@ public class EquilibriumAPIHandler {
     }
     
     public func openWebsocket(path: String) throws -> URLSessionWebSocketTask {
-        //let url = self.baseURL.appendingPathComponent(path)
         guard let url = URL(string: "ws://" + self.host + path) else {
             throw EquilibriumAPIError.invalidHostAndPort
         }
@@ -200,7 +197,7 @@ public class EquilibriumAPIHandler {
 }
 
 public extension EquilibriumAPIHandler {
-    public static func testConnection(host: String, port: Int) async throws -> ServerInfo {
+    static func testConnection(host: String, port: Int) async throws -> ServerInfo {
         guard let url = URL(string: "http://\(host):\(port)/info") else {
             throw EquilibriumAPIError.invalidHostAndPort
         }
