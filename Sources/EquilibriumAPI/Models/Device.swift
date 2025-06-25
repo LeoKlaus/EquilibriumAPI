@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public struct Device: Identifiable, Equatable, Codable {
+public struct Device: Identifiable, Equatable, Codable, Hashable {
     public let id: Int?
     public let name: String
     public let manufacturer: String?

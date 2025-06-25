@@ -23,11 +23,13 @@ public struct ValidationError: Equatable, Codable, Sendable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.type = try container.decode(String.self, forKey: .type)
+        
         if let locInts = try? container.decode([Int].self, forKey: .loc) {
             self.loc = locInts.map { String($0) }
         } else {
             self.loc = try container.decode([String].self, forKey: .loc)
         }
+        
         self.msg = try container.decode(String.self, forKey: .msg)
     }
 }

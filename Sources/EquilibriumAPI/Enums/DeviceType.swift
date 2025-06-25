@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public enum DeviceType: String, Codable {
+public enum DeviceType: String, Codable, Hashable {
     case display
     case amplifier
     case player

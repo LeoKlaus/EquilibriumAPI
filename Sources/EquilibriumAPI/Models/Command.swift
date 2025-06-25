@@ -5,10 +5,10 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public struct Command: Identifiable, Equatable, Codable {
+public struct Command: Identifiable, Equatable, Codable, Hashable {
     public let id: Int?
     public let name: String
-    public let button: ButtonType
+    public let button: RemoteButton
     public let type: CommandType
     public let commandGroupId: Int?
     public let host: String?
@@ -33,7 +33,7 @@ public struct Command: Identifiable, Equatable, Codable {
         //case irAction = "ir_action"
     }
     
-    public init(id: Int? = nil, name: String, button: ButtonType, type: CommandType, commandGroupId: Int? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil) {
+    public init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroupId: Int? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil) {
         self.id = id
         self.name = name
         self.button = button
