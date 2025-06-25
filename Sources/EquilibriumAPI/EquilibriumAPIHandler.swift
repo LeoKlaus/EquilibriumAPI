@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum EquilibriumAPIError: Error {
+public enum EquilibriumAPIError: Error {
     case invalidHostAndPort
     case noValidServerResponse
     case unexpectedServerResponse(statusCode: Int, response: String?)
 }
 
-public class EquilibriumAPIHandler {
+open class EquilibriumAPIHandler {
     
     let baseURL: URL
     let host: String
@@ -26,7 +26,7 @@ public class EquilibriumAPIHandler {
         self.baseURL = url
     }
     
-    public func get(path: String) async throws -> Data {
+    open func get(path: String) async throws -> Data {
         let url = self.baseURL.appendingPathComponent(path)
         
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
@@ -51,7 +51,7 @@ public class EquilibriumAPIHandler {
         return try JSONDecoder().decode(T.self, from: data)
     }
     
-    public func patch<T: Codable>(path: String, object: T) async throws -> T {
+    open func patch<T: Codable>(path: String, object: T) async throws -> T {
         let url = self.baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -75,7 +75,7 @@ public class EquilibriumAPIHandler {
         }
     }
     
-    public func post(path: String) async throws {
+    open func post(path: String) async throws {
         let url = self.baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -98,7 +98,7 @@ public class EquilibriumAPIHandler {
         }
     }
     
-    public func post<T: Codable>(path: String, object: T) async throws -> T {
+    open func post<T: Codable>(path: String, object: T) async throws -> T {
         let url = self.baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -123,7 +123,7 @@ public class EquilibriumAPIHandler {
         }
     }
     
-    public func delete(path: String) async throws {
+    open func delete(path: String) async throws {
         let url = self.baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -146,7 +146,7 @@ public class EquilibriumAPIHandler {
         }
     }
     
-    public func postMultipartForm<T: Decodable>(path: String, fileURL: URL) async throws -> T {
+    open func postMultipartForm<T: Decodable>(path: String, fileURL: URL) async throws -> T {
         
         var body = Data()
         
@@ -186,7 +186,7 @@ public class EquilibriumAPIHandler {
         }
     }
     
-    public func openWebsocket(path: String) throws -> URLSessionWebSocketTask {
+    open func openWebsocket(path: String) throws -> URLSessionWebSocketTask {
         guard let url = URL(string: "ws://" + self.host + path) else {
             throw EquilibriumAPIError.invalidHostAndPort
         }
