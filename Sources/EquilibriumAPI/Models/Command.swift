@@ -10,7 +10,9 @@ public struct Command: Identifiable, Equatable, Codable, Hashable {
     public let name: String
     public let button: RemoteButton
     public let type: CommandType
-    public let commandGroupId: Int?
+    public let commandGroup: CommandGroupType
+    public let deviceId: Int?
+    public let device: Device?
     public let host: String?
     public let method: HTTPMethod?
     public let body: String?
@@ -24,7 +26,9 @@ public struct Command: Identifiable, Equatable, Codable, Hashable {
         case name
         case button
         case type
-        case commandGroupId = "command_group_id"
+        case commandGroup = "command_group"
+        case deviceId = "device_id"
+        case device
         case host
         case method
         case body
@@ -33,12 +37,14 @@ public struct Command: Identifiable, Equatable, Codable, Hashable {
         //case irAction = "ir_action"
     }
     
-    public init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroupId: Int? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil) {
+    init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroup: CommandGroupType, deviceId: Int? = nil, device: Device? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil) {
         self.id = id
         self.name = name
         self.button = button
         self.type = type
-        self.commandGroupId = commandGroupId
+        self.commandGroup = commandGroup
+        self.deviceId = deviceId
+        self.device = device
         self.host = host
         self.method = method
         self.body = body

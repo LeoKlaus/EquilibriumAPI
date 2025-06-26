@@ -20,6 +20,7 @@ public enum RemoteButton: String, Codable {
     case guide
     case back
     case menu
+    case home
     case exit
     case play
     case pause

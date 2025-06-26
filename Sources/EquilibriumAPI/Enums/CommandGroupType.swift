@@ -13,5 +13,6 @@ public enum CommandGroupType: String, Codable, Hashable {
     case coloredButtons = "colored_buttons"
     case channel
     case numeric
+    case input
     case other
 }
