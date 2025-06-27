@@ -18,6 +18,7 @@ public struct Command: Identifiable, Equatable, Codable, Hashable {
     public let body: String?
     public let btAction: String?
     public let btMediaAction: String?
+    public let macros: [Macro]?
     // Not needed for clients
     //let irAction: [Int]
     
@@ -34,10 +35,11 @@ public struct Command: Identifiable, Equatable, Codable, Hashable {
         case body
         case btAction = "bt_action"
         case btMediaAction = "bt_media_action"
+        case macros
         //case irAction = "ir_action"
     }
     
-    init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroup: CommandGroupType, deviceId: Int? = nil, device: Device? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil) {
+    public init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroup: CommandGroupType, deviceId: Int? = nil, device: Device? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil, macros: [Macro]? = nil) {
         self.id = id
         self.name = name
         self.button = button
@@ -50,5 +52,6 @@ public struct Command: Identifiable, Equatable, Codable, Hashable {
         self.body = body
         self.btAction = btAction
         self.btMediaAction = btMediaAction
+        self.macros = macros
     }
 }

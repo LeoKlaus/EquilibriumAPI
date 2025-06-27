@@ -26,8 +26,8 @@ open class EquilibriumAPIHandler {
         self.baseURL = url
     }
     
-    open func get(path: String) async throws -> Data {
-        let url = self.baseURL.appendingPathComponent(path)
+    open func get(endpoint: ApiEndpoint) async throws -> Data {
+        let url = self.baseURL.appendingPathComponent(endpoint.path)
         
         let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
         
@@ -46,13 +46,13 @@ open class EquilibriumAPIHandler {
         }
     }
     
-    public func get<T: Decodable>(path: String) async throws -> T {
-        let data = try await self.get(path: path)
+    public func get<T: Decodable>(endpoint: ApiEndpoint) async throws -> T {
+        let data = try await self.get(endpoint: endpoint)
         return try JSONDecoder().decode(T.self, from: data)
     }
     
-    open func patch<T: Codable>(path: String, object: T) async throws -> T {
-        let url = self.baseURL.appendingPathComponent(path)
+    open func patch<T: Codable>(endpoint: ApiEndpoint, object: T) async throws -> T {
+        let url = self.baseURL.appendingPathComponent(endpoint.path)
         
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
@@ -75,8 +75,8 @@ open class EquilibriumAPIHandler {
         }
     }
     
-    open func post(path: String) async throws {
-        let url = self.baseURL.appendingPathComponent(path)
+    open func post(endpoint: ApiEndpoint) async throws {
+        let url = self.baseURL.appendingPathComponent(endpoint.path)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -98,8 +98,8 @@ open class EquilibriumAPIHandler {
         }
     }
     
-    open func post<T: Codable>(path: String, object: T) async throws -> T {
-        let url = self.baseURL.appendingPathComponent(path)
+    open func post<T: Codable>(endpoint: ApiEndpoint, object: T) async throws -> T {
+        let url = self.baseURL.appendingPathComponent(endpoint.path)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -123,8 +123,8 @@ open class EquilibriumAPIHandler {
         }
     }
     
-    open func delete(path: String) async throws {
-        let url = self.baseURL.appendingPathComponent(path)
+    open func delete(endpoint: ApiEndpoint) async throws {
+        let url = self.baseURL.appendingPathComponent(endpoint.path)
         
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
@@ -146,7 +146,7 @@ open class EquilibriumAPIHandler {
         }
     }
     
-    open func postMultipartForm<T: Decodable>(path: String, fileURL: URL) async throws -> T {
+    open func postMultipartForm<T: Decodable>(endpoint: ApiEndpoint, fileURL: URL) async throws -> T {
         
         var body = Data()
         
@@ -162,7 +162,7 @@ open class EquilibriumAPIHandler {
         body.append("\r\n")
         body.append("--\(boundary)--\r\n")
         
-        let url = self.baseURL.appendingPathComponent(path)
+        let url = self.baseURL.appendingPathComponent(endpoint.path)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -186,8 +186,8 @@ open class EquilibriumAPIHandler {
         }
     }
     
-    open func openWebsocket(path: String) throws -> URLSessionWebSocketTask {
-        guard let url = URL(string: "ws://" + self.host + path) else {
+    open func openWebsocket(endpoint: ApiEndpoint) throws -> URLSessionWebSocketTask {
+        guard let url = URL(string: "ws://" + self.host + endpoint.path) else {
             throw EquilibriumAPIError.invalidHostAndPort
         }
         
@@ -198,7 +198,7 @@ open class EquilibriumAPIHandler {
 
 public extension EquilibriumAPIHandler {
     static func testConnection(host: String, port: Int) async throws -> ServerInfo {
-        guard let url = URL(string: "http://\(host):\(port)/info") else {
+        guard let url = URL(string: "http://\(host):\(port)" + ApiEndpoint.info.path) else {
             throw EquilibriumAPIError.invalidHostAndPort
         }
         

@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 26.06.25.
 //
 
-public enum ApiEndpoint: RawRepresentable {
+public enum ApiEndpoint: Sendable {
     case commands
     case command(id: Int)
     case sendCommand(id: Int)
@@ -33,8 +33,14 @@ public enum ApiEndpoint: RawRepresentable {
     case stopCurrentScene
     
     case info
+    case systemStatus
     
-    public var rawValue: String {
+    case wsStatus
+    case wsCommands
+    case wsBtPairing
+    case wsKeyboard
+    
+    public var path: String {
         switch self {
         case .commands:
             "/commands"
@@ -78,10 +84,16 @@ public enum ApiEndpoint: RawRepresentable {
             "/scenes/stop"
         case .info:
             "/info"
+        case .systemStatus:
+            "/system/status"
+        case .wsStatus:
+            "/ws/status"
+        case .wsCommands:
+            "/ws/commands"
+        case .wsBtPairing:
+            "/ws/bt_pairing"
+        case .wsKeyboard:
+            "/ws/keyboard"
         }
-    }
-    
-    public init?(rawValue: String) {
-        return nil
     }
 }
