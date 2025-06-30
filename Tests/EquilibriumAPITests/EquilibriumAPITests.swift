@@ -1,13 +1,13 @@
 import Testing
 import Foundation
-@testable import EquilibriumAPIHandler
+@testable import EquilibriumAPI
 
 
 @Test func decodeIrCommand() async throws {
     let json = """
     {
         "name": "Volume Up",
-        "command_group_id": 1,
+        "command_group": "channel",
         "bt_media_action": null,
         "method": null,
         "id": 1,
@@ -27,7 +27,7 @@ import Foundation
     
     #expect(command.id == 1)
     #expect(command.name == "Volume Up")
-    #expect(command.commandGroupId == 1)
+    #expect(command.commandGroup == .channel)
     #expect(command.btMediaAction == nil)
     #expect(command.method == nil)
     #expect(command.button == .volumeUp)
@@ -42,7 +42,7 @@ import Foundation
     let json = """
     {
         "name": "Govee PC",
-        "command_group_id": null,
+        "command_group": "other",
         "bt_media_action": null,
         "method": "post",
         "id": 24,
@@ -60,7 +60,7 @@ import Foundation
     #expect(command.id == 24)
     #expect(command.name == "Govee PC")
     #expect(command.type == .network)
-    #expect(command.commandGroupId == nil)
+    #expect(command.commandGroup == .other)
     #expect(command.button == .other)
     #expect(command.btAction == nil)
     #expect(command.btMediaAction == nil)
@@ -74,7 +74,7 @@ import Foundation
     let json = """
     {
         "name": "Select",
-        "command_group_id": null,
+        "command_group": "other",
         "bt_media_action": null,
         "method": null,
         "id": 16,
@@ -91,7 +91,7 @@ import Foundation
     
     #expect(command.id == 16)
     #expect(command.name == "Select")
-    #expect(command.commandGroupId == nil)
+    #expect(command.commandGroup == .other)
     #expect(command.type == .bluetooth)
     #expect(command.button == .select)
     #expect(command.btMediaAction == nil)
@@ -106,7 +106,7 @@ import Foundation
     let json = """
     {
         "name": "Mute",
-        "command_group_id": null,
+        "command_group": "volume",
         "bt_media_action": "KEY_MUTE",
         "method": null,
         "id": 10,
@@ -123,7 +123,7 @@ import Foundation
     
     #expect(command.id == 10)
     #expect(command.name == "Mute")
-    #expect(command.commandGroupId == nil)
+    #expect(command.commandGroup == .volume)
     #expect(command.type == .bluetooth)
     #expect(command.button == .mute)
     #expect(command.btAction == nil)
@@ -134,47 +134,6 @@ import Foundation
     //#expect(command.irAction == [])
 }
 
-@Test func decodeCommandGroup() async throws {
-    let json = """
-    {
-        "name": "Power",
-        "type": "power",
-        "id": 3,
-        "commands": [
-          {
-            "name": "Power Toggle",
-            "button": "power_toggle",
-            "type": "ir",
-            "command_group_id": 3,
-            "host": null,
-            "method": null,
-            "body": null,
-            "bt_action": null,
-            "bt_media_action": null,
-            "id": 5
-          }
-        ]
-      }
-    """.utf8
-    
-    let commandGroup = try JSONDecoder().decode(CommandGroup.self, from: Data(json))
-    
-    #expect(commandGroup.id == 3)
-    #expect(commandGroup.name == "Power")
-    #expect(commandGroup.type == .power)
-    #expect(
-        commandGroup.commands == [
-            Command(
-                id: 5,
-                name: "Power Toggle",
-                button: .powerToggle,
-                type: .ir,
-                commandGroupId: 3
-            )
-        ]
-    )
-}
-
 @Test func decodeDevice() async throws {
     let json = """
     {
@@ -183,25 +142,18 @@ import Foundation
         "model": "55U8KQ",
         "type": "display",
         "id": 1,
-        "command_groups": [
+        "commands": [
             {
-                "name": "Power",
-                "type": "power",
-                "id": 3,
-                "commands": [
-                    {
-                        "name": "Power Toggle",
-                        "button": "power_toggle",
-                        "type": "ir",
-                        "command_group_id": 3,
-                        "host": null,
-                        "method": null,
-                        "body": null,
-                        "bt_action": null,
-                        "bt_media_action": null,
-                        "id": 5
-                    }
-                ]
+                "name": "Power Toggle",
+                "button": "power_toggle",
+                "type": "ir",
+                "command_group": "power",
+                "host": null,
+                "method": null,
+                "body": null,
+                "bt_action": null,
+                "bt_media_action": null,
+                "id": 5
             }
         ],
         "macros": [
@@ -246,20 +198,13 @@ import Foundation
     #expect(device.model == "55U8KQ")
     #expect(device.type == .display)
     #expect(
-        device.commandGroups == [
-            CommandGroup(
-                id: 3,
-                name: "Power",
-                type: .power,
-                commands: [
-                    Command(
-                        id: 5,
-                        name: "Power Toggle",
-                        button: .powerToggle,
-                        type: .ir,
-                        commandGroupId: 3
-                    )
-                ]
+        device.commands == [
+            Command(
+                id: 5,
+                name: "Power Toggle",
+                button: .powerToggle,
+                type: .ir,
+                commandGroup: .power
             )
         ]
     )
@@ -362,7 +307,7 @@ import Foundation
                 {
                     "name": "TestCommand",
                     "button": "other",
-                    "command_group_id": 0,
+                    "command_group": "other",
                     "ir_action": [],
                     "bt_media_action": null,
                     "method": "get",
@@ -375,7 +320,7 @@ import Foundation
                 {
                     "name": "TestCommand2",
                     "button": "other",
-                    "command_group_id": null,
+                    "command_group": "other",
                     "ir_action": [],
                     "bt_media_action": null,
                     "method": "get",
@@ -418,7 +363,7 @@ import Foundation
                 {
                     "name": "TestCommand",
                     "button": "other",
-                    "command_group_id": 0,
+                    "command_group": "other",
                     "ir_action": [],
                     "bt_media_action": null,
                     "method": "get",
@@ -431,7 +376,7 @@ import Foundation
                 {
                     "name": "TestCommand2",
                     "button": "other",
-                    "command_group_id": null,
+                    "command_group": "other",
                     "ir_action": [],
                     "bt_media_action": null,
                     "method": "get",
@@ -500,22 +445,14 @@ import Foundation
             id: 1,
             name: "string",
             commands: [
-                Command(id: 1, name: "TestCommand", button: .other, type: .network, commandGroupId: 0, host: "https://google.de", method: .get),
-                Command(id: 2, name: "TestCommand2", button: .other, type: .network, host: "https://google.de", method: .get)
+                Command(id: 1, name: "TestCommand", button: .other, type: .network, commandGroup: .other, host: "https://google.de", method: .get),
+                Command(id: 2, name: "TestCommand2", button: .other, type: .network, commandGroup: .other, host: "https://google.de", method: .get)
             ],
             delays: [100],
             scenes: [
-                Scene(id: 1, name: "string", imageId: 0)
+                Scene(id: 1, name: "string", imageId: 0, startMacroId: 1, stopMacroId: 2)
             ],
             devices: [
-                /**
-                 "name": "Hisense TV",
-                 "model": "55U8KQ",
-                 "id": 1,
-                 "manufacturer": "Hisense",
-                 "type": "display",
-                 "image_id": null
-                 */
                 Device(id: 1, name: "Hisense TV", manufacturer: "Hisense", model: "55U8KQ", type: .display)
             ]
         )
@@ -526,8 +463,8 @@ import Foundation
             id: 2,
             name: "TestMacro2",
             commands: [
-                Command(id: 1, name: "TestCommand", button: .other, type: .network, commandGroupId: 0, host: "https://google.de", method: .get),
-                Command(id: 2, name: "TestCommand2", button: .other, type: .network, host: "https://google.de", method: .get)
+                Command(id: 1, name: "TestCommand", button: .other, type: .network, commandGroup: .other, host: "https://google.de", method: .get),
+                Command(id: 2, name: "TestCommand2", button: .other, type: .network, commandGroup: .other, host: "https://google.de", method: .get)
             ],
             delays: [100],
             scenes: [],
@@ -542,34 +479,6 @@ import Foundation
     ])
 }
 
-@Test func decodeSceneStatusReport() async throws {
-    let json = """
-    {
-        "id": 7,
-        "status": "stopping"
-    }
-    """.utf8
-    
-    let sceneStatus = try JSONDecoder().decode(SceneStatusReport.self, from: Data(json))
-    
-    #expect(sceneStatus.id == 7)
-    #expect(sceneStatus.status == .stopping)
-}
-
-@Test func decodeSceneStatusReportEmpty() async throws {
-    let json = """
-    {
-        "id": null,
-        "status": null
-    }
-    """.utf8
-    
-    let sceneStatus = try JSONDecoder().decode(SceneStatusReport.self, from: Data(json))
-    
-    #expect(sceneStatus.id == nil)
-    #expect(sceneStatus.status == nil)
-}
-
 @Test func decodeMacro() async throws {
     let json = """
     {
@@ -579,7 +488,7 @@ import Foundation
             {
                 "name": "TestCommand",
                 "button": "other",
-                "command_group_id": 0,
+                "command_group": "other",
                 "ir_action": [],
                 "bt_media_action": null,
                 "method": "get",
@@ -592,7 +501,7 @@ import Foundation
             {
                 "name": "TestCommand2",
                 "button": "other",
-                "command_group_id": null,
+                "command_group": "other",
                 "ir_action": [],
                 "bt_media_action": null,
                 "method": "get",
@@ -635,12 +544,12 @@ import Foundation
     #expect(macro.id == 1)
     #expect(macro.name == "string")
     #expect(macro.commands == [
-        Command(id: 1, name: "TestCommand", button: .other, type: .network, commandGroupId: 0, host: "https://google.de", method: .get),
-        Command(id: 2, name: "TestCommand2", button: .other, type: .network, host: "https://google.de", method: .get)
+        Command(id: 1, name: "TestCommand", button: .other, type: .network, commandGroup: .other, host: "https://google.de", method: .get),
+        Command(id: 2, name: "TestCommand2", button: .other, type: .network, commandGroup: .other, host: "https://google.de", method: .get)
     ])
     #expect(macro.delays == [100])
     #expect(macro.scenes == [
-        Scene(id: 1, name: "string", imageId: 0)
+        Scene(id: 1, name: "string", imageId: 0, startMacroId: 1, stopMacroId: 2)
     ])
     #expect(macro.devices == [
         Device(id: 1, name: "Hisense TV", manufacturer: "Hisense", model: "55U8KQ", type: .display)
@@ -648,7 +557,7 @@ import Foundation
 }
     
     
-@Test fund decodeServerInfo() async throws {
+@Test func decodeServerInfo() async throws {
     let json = """
     {
         "version": "0.1.0"
@@ -658,4 +567,127 @@ import Foundation
     let info = try JSONDecoder().decode(ServerInfo.self, from: Data(json))
     
     #expect(info.version == "0.1.0")
+}
+
+@Test func decodeStatusResponseEmpty() async throws {
+    let json = """
+    {
+        "current_scene": null,
+        "scene_status": null,
+        "devices": {
+            "states":{
+                "3": {
+                    "powered": false,
+                    "input": null
+                },
+                "1":{
+                    "powered":false,
+                    "input": null
+                }
+            }
+        }
+    }
+    """.utf8
+    
+    let status = try JSONDecoder().decode(StatusReport.self, from: Data(json))
+    
+    #expect(status.current_scene_id == nil)
+}
+
+@Test func decodeStatusResponse() async throws {
+    let json = """
+    {
+        "current_scene": {
+            "keymap": "apple_tv",
+            "name": "Watch Apple TV",
+            "id": 1,
+            "bluetooth_address": "C0:95:6D:80:ED:7E",
+            "start_macro": {
+                "id": 1,
+                "delays": [0],
+                "name": "Start Apple TV",
+                "commands": [
+                    {
+                        "name": "Input Apple TV",
+                        "command_group": "input",
+                        "bt_action": null,
+                        "id": 15,
+                        "host": "http://192.168.27.210:1880/test",
+                        "body": "appletv",
+                        "button": "other",
+                        "type": "network",
+                        "device_id": 3,
+                        "bt_media_action": null,
+                        "ir_action": [],
+                        "method": "post"
+                    },
+                    {
+                        "name": "Power toggle",
+                        "command_group": "power",
+                        "bt_action": null,
+                        "id": 27,
+                        "host": null,
+                        "body": null,
+                        "button": "power_toggle",
+                        "type": "ir",
+                        "device_id": 1,
+                        "bt_media_action": null,
+                        "method": null
+                    }
+                ]
+            },
+            "stop_macro": {
+                "id": 5,
+                "delays": [0],
+                "name": "Turn Off TV",
+                "commands": [
+                    {
+                        "name": "Power off",
+                        "command_group": "power",
+                        "bt_action": null,
+                        "id": 11,
+                        "host": "http://192.168.27.210:1880/test",
+                        "body": "off",
+                        "button": "power_off",
+                        "type": "network",
+                        "device_id": 3,
+                        "bt_media_action": null,
+                        "ir_action": [],
+                        "method": "post"
+                    },
+                    {
+                        "name": "Power toggle",
+                        "command_group": "power",
+                        "bt_action": null,
+                        "id": 27,
+                        "host": null,
+                        "body": null,
+                        "button": "power_toggle",
+                        "type": "ir",
+                        "device_id": 1,
+                        "bt_media_action": null,
+                        "method": null
+                    }
+                ]
+            }
+        },
+        "scene_status": "stopping",
+        "devices": {
+            "states": {
+                "3": {
+                    "powered": false,
+                    "input": null
+                },
+                "1": {
+                    "powered": false,
+                    "input": null
+                }
+            }
+        }
+    }
+    """.utf8
+    
+    let status = try JSONDecoder().decode(StatusReport.self, from: Data(json))
+    
+    #expect(status.current_scene_id == nil)
 }

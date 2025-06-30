@@ -27,9 +27,9 @@ public enum ApiEndpoint: Sendable {
     
     case scenes
     case scene(id: Int)
-    case currentScene
     case startScene(id: Int)
     case setCurrentScene(id: Int)
+    case getKeymapSuggestion(id: Int)
     case stopCurrentScene
     
     case info
@@ -74,12 +74,12 @@ public enum ApiEndpoint: Sendable {
             "/scenes"
         case .scene(let id):
             "/scenes/\(id)"
-        case .currentScene:
-            "/scenes/current"
         case .startScene(let id):
             "/scenes/\(id)/start"
         case .setCurrentScene(let id):
             "/scenes/\(id)/set_current"
+        case .getKeymapSuggestion(let id):
+            "/scenes/\(id)/keymap_suggestions"
         case .stopCurrentScene:
             "/scenes/stop"
         case .info:

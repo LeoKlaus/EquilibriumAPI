@@ -13,8 +13,11 @@ public struct Scene: Identifiable, Equatable, Codable, Hashable {
     public let bluetoothAddress: String?
     public let keymap: String?
     public let devices: [Device]?
+    public let deviceIds: [Int]?
     public let startMacro: Macro?
+    public let startMacroId: Int?
     public let stopMacro: Macro?
+    public let stopMacroId: Int?
     public let macros: [Macro]?
     
     enum CodingKeys: String, CodingKey {
@@ -25,12 +28,15 @@ public struct Scene: Identifiable, Equatable, Codable, Hashable {
         case bluetoothAddress = "bluetooth_address"
         case keymap
         case devices
+        case deviceIds = "device_ids"
         case startMacro = "start_macro"
+        case startMacroId = "start_macro_id"
         case stopMacro = "stop_macro"
+        case stopMacroId = "stop_macro_id"
         case macros
     }
     
-    public init(id: Int? = nil, name: String? = nil, image: UserImage? = nil, imageId: Int? = nil, bluetoothAddress: String? = nil, keymap: String? = nil, devices: [Device]? = nil, startMacro: Macro? = nil, stopMacro: Macro? = nil, macros: [Macro]? = nil) {
+    public init(id: Int? = nil, name: String? = nil, image: UserImage? = nil, imageId: Int? = nil, bluetoothAddress: String? = nil, keymap: String? = nil, devices: [Device]? = nil, deviceIds: [Int]? = nil, startMacroId: Int? = nil, startMacro: Macro? = nil, stopMacroId: Int? = nil, stopMacro: Macro? = nil, macros: [Macro]? = nil) {
         self.id = id
         self.name = name
         self.image = image
@@ -38,8 +44,11 @@ public struct Scene: Identifiable, Equatable, Codable, Hashable {
         self.bluetoothAddress = bluetoothAddress
         self.keymap = keymap
         self.devices = devices
+        self.deviceIds = deviceIds
         self.startMacro = startMacro
+        self.startMacroId = startMacroId
         self.stopMacro = stopMacro
+        self.stopMacroId = stopMacroId
         self.macros = macros
     }
 }
