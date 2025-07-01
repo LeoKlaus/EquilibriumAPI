@@ -24,6 +24,7 @@ public enum ApiEndpoint: Sendable {
     
     case macros
     case macro(id: Int)
+    case sendMacro(id: Int)
     
     case scenes
     case scene(id: Int)
@@ -70,6 +71,8 @@ public enum ApiEndpoint: Sendable {
             "/macros"
         case .macro(let id):
             "/macros/\(id)"
+        case .sendMacro(let id):
+            "/macros/\(id)/send"
         case .scenes:
             "/scenes"
         case .scene(let id):
