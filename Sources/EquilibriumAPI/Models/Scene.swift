@@ -19,6 +19,7 @@ public struct Scene: Identifiable, Equatable, Codable, Hashable {
     public let stopMacro: Macro?
     public let stopMacroId: Int?
     public let macros: [Macro]?
+    public let macroIds: [Int]?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -34,9 +35,10 @@ public struct Scene: Identifiable, Equatable, Codable, Hashable {
         case stopMacro = "stop_macro"
         case stopMacroId = "stop_macro_id"
         case macros
+        case macroIds = "macro_ids"
     }
     
-    public init(id: Int? = nil, name: String? = nil, image: UserImage? = nil, imageId: Int? = nil, bluetoothAddress: String? = nil, keymap: String? = nil, devices: [Device]? = nil, deviceIds: [Int]? = nil, startMacroId: Int? = nil, startMacro: Macro? = nil, stopMacroId: Int? = nil, stopMacro: Macro? = nil, macros: [Macro]? = nil) {
+    public init(id: Int? = nil, name: String? = nil, image: UserImage? = nil, imageId: Int? = nil, bluetoothAddress: String? = nil, keymap: String? = nil, devices: [Device]? = nil, deviceIds: [Int]? = nil, startMacroId: Int? = nil, startMacro: Macro? = nil, stopMacroId: Int? = nil, stopMacro: Macro? = nil, macros: [Macro]? = nil, macroIds: [Int]? = nil) {
         self.id = id
         self.name = name
         self.image = image
@@ -50,5 +52,6 @@ public struct Scene: Identifiable, Equatable, Codable, Hashable {
         self.stopMacro = stopMacro
         self.stopMacroId = stopMacroId
         self.macros = macros
+        self.macroIds = macroIds
     }
 }
