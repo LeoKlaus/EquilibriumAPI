@@ -72,7 +72,7 @@ public enum ApiEndpoint: Sendable {
         case .macro(let id):
             "/macros/\(id)"
         case .sendMacro(let id):
-            "/macros/\(id)/send"
+            "/macros/\(id)/execute"
         case .scenes:
             "/scenes"
         case .scene(let id):
