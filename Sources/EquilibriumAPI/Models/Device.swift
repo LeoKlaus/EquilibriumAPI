@@ -5,9 +5,11 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public struct Device: Identifiable, Equatable, Codable, Hashable {
+import Foundation
+
+public struct Device: Identifiable, Equatable, Codable, Hashable, Sendable {
     
-    public let id: Int?
+    public var id: Int?
     public let name: String
     public let manufacturer: String?
     public let model: String?

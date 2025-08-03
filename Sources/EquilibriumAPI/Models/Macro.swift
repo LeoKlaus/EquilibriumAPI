@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 23.06.25.
 //
 
-public struct Macro: Codable, Identifiable, Equatable, Hashable {
+public struct Macro: Codable, Identifiable, Equatable, Hashable, Sendable {
     public let id: Int?
     public let name: String?
     public let commands: [Command]?

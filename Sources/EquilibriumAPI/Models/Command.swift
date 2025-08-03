@@ -5,7 +5,10 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public struct Command: Identifiable, Equatable, Codable, Hashable {
+import Foundation
+
+public struct Command: Identifiable, Equatable, Codable, Hashable, Sendable {
+    
     public let id: Int?
     public let name: String
     public let button: RemoteButton

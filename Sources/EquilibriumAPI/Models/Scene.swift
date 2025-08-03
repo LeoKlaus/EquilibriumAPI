@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public struct Scene: Identifiable, Equatable, Codable, Hashable {
+public struct Scene: Identifiable, Equatable, Codable, Hashable, Sendable {
     public let id: Int?
     public let name: String?
     public let image: UserImage?

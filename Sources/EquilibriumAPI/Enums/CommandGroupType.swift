@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public enum CommandGroupType: String, Codable, Hashable {
+public enum CommandGroupType: String, Codable, Hashable, Sendable {
     case power
     case volume
     case navigation

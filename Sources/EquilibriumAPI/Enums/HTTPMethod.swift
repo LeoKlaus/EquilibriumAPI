@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public enum HTTPMethod: String, Codable {
+public enum HTTPMethod: String, Codable, Sendable {
     case get
     case post
     case delete

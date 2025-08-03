@@ -5,7 +5,7 @@
 //  Created by Leo Wehrfritz on 19.06.25.
 //
 
-public enum RemoteButton: String, Codable {
+public enum RemoteButton: String, Codable, Sendable {
     case powerToggle = "power_toggle"
     case powerOff = "power_off"
     case powerOn = "power_on"
