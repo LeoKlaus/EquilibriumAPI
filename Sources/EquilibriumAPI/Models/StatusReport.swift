@@ -24,13 +24,19 @@ public struct DeviceStates: Codable {
 }
 
 public struct StatusReport: Codable {
-    public let current_scene: Scene?
-    public let scene_status: SceneStatus?
+    public let currentScene: Scene?
+    public let sceneStatus: SceneStatus?
     public let devices: DeviceStates?
     
     public init(current_scene: Scene? = nil, scene_status: SceneStatus? = nil, devices: DeviceStates? = nil) {
-        self.current_scene = current_scene
-        self.scene_status = scene_status
+        self.currentScene = current_scene
+        self.sceneStatus = scene_status
         self.devices = devices
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case currentScene = "current_scene"
+        case sceneStatus = "scene_status"
+        case devices
     }
 }
