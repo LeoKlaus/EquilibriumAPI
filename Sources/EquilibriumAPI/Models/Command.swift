@@ -22,6 +22,8 @@ public struct Command: Identifiable, Equatable, Codable, Hashable, Sendable {
     public let btAction: String?
     public let btMediaAction: String?
     public let macros: [Macro]?
+    public let integrationAction: IntegrationAction?
+    public let integrationEntity: String?
     // Not needed for clients
     //let irAction: [Int]
     
@@ -39,10 +41,12 @@ public struct Command: Identifiable, Equatable, Codable, Hashable, Sendable {
         case btAction = "bt_action"
         case btMediaAction = "bt_media_action"
         case macros
+        case integrationAction = "integration_action"
+        case integrationEntity = "integration_entity"
         //case irAction = "ir_action"
     }
     
-    public init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroup: CommandGroupType, deviceId: Int? = nil, device: Device? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil, macros: [Macro]? = nil) {
+    public init(id: Int? = nil, name: String, button: RemoteButton, type: CommandType, commandGroup: CommandGroupType, deviceId: Int? = nil, device: Device? = nil, host: String? = nil, method: HTTPMethod? = nil, body: String? = nil, btAction: String? = nil, btMediaAction: String? = nil, macros: [Macro]? = nil, integrationAction: IntegrationAction? = nil, integrationEntity: String? = nil) {
         self.id = id
         self.name = name
         self.button = button
@@ -56,5 +60,7 @@ public struct Command: Identifiable, Equatable, Codable, Hashable, Sendable {
         self.btAction = btAction
         self.btMediaAction = btMediaAction
         self.macros = macros
+        self.integrationAction = integrationAction
+        self.integrationEntity = integrationEntity
     }
 }

@@ -10,4 +10,5 @@ public enum CommandType: String, Codable, Sendable {
     case bluetooth
     case network
     case script
+    case integration
 }
